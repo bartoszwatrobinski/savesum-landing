@@ -26,9 +26,9 @@ npm install
 
 2. Set up environment variables:
    - Create a `.env.local` file in the root directory
-   - Add your NoCodeAPI endpoint:
+   - Add your Formspree endpoint:
    ```
-   NOCODEAPI_ENDPOINT=https://api.nocodeapi.com/v1/your-workspace/your-api-name?f=addRow&token=your-token
+   FORMSPREE_ENDPOINT=https://formspree.io/f/your-form-id
    ```
 
 3. Run the development server:
@@ -40,7 +40,7 @@ npm run dev
 
 ### Environment Variables
 
-- `NOCODEAPI_ENDPOINT` - Your NoCodeAPI endpoint for Google Sheets integration
+- `FORMSPREE_ENDPOINT` - Your Formspree endpoint for waitlist form submissions
 
 ## Available Scripts
 
@@ -79,7 +79,7 @@ This project can be deployed to Vercel, Netlify, or any other platform that supp
 ### Production Setup
 
 1. Set up environment variables in your hosting platform:
-   - `NOCODEAPI_ENDPOINT` - Your NoCodeAPI endpoint
+   - `FORMSPREE_ENDPOINT` - Your Formspree endpoint
 
 2. Build and deploy:
 ```bash
