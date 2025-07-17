@@ -24,12 +24,23 @@ A modern, responsive landing page for SaveSum built with Next.js, TypeScript, an
 npm install
 ```
 
-2. Run the development server:
+2. Set up environment variables:
+   - Create a `.env.local` file in the root directory
+   - Add your NoCodeAPI endpoint:
+   ```
+   NOCODEAPI_ENDPOINT=https://api.nocodeapi.com/v1/your-workspace/your-api-name?f=addRow&token=your-token
+   ```
+
+3. Run the development server:
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Environment Variables
+
+- `NOCODEAPI_ENDPOINT` - Your NoCodeAPI endpoint for Google Sheets integration
 
 ## Available Scripts
 
@@ -65,6 +76,19 @@ app/
 
 This project can be deployed to Vercel, Netlify, or any other platform that supports Next.js.
 
+### Production Setup
+
+1. Set up environment variables in your hosting platform:
+   - `NOCODEAPI_ENDPOINT` - Your NoCodeAPI endpoint
+
+2. Build and deploy:
 ```bash
 npm run build
 ```
+
+### Security Notes
+
+- ✅ API keys are stored server-side in environment variables
+- ✅ Form submissions are handled through secure API routes
+- ✅ Client-side code doesn't expose sensitive information
+- ✅ Email validation is performed both client and server-side

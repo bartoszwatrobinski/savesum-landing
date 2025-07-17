@@ -17,6 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <link rel="icon" href="/savesum-logo.png?v=2" type="image/png" />
+        <link rel="apple-touch-icon" href="/savesum-logo.png?v=2" />
+        <meta name="theme-color" content="#2563eb" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )

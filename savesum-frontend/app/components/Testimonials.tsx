@@ -25,8 +25,8 @@ const Testimonials = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold mb-4">What Our Users Say</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Don't take our word for it. Hear from students who are already saving with Referlut.
+          <p className="text-lg text-gray-600 mb-12">
+            Don't take our word for it. Hear from students who are already saving with SaveSum.
           </p>
         </div>
         

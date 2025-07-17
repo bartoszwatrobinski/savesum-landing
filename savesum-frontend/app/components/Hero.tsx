@@ -1,46 +1,91 @@
+"use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
 const Hero = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  function validateEmail(email: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  const handleJoinWaitlist = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    setError('');
+    
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        setEmail('');
+        // Show appropriate message based on response
+        if (data.message.includes('already on the waitlist')) {
+          alert('You are already on the waitlist!');
+        } else {
+          alert('You have joined the waitlist!');
+        }
+      } else if (res.status === 429) {
+        setError('Too many requests. Please wait a moment and try again.');
+      } else {
+        setError(data.error || 'There was a problem. Please try again later.');
+      }
+    } catch (err) {
+      setError('There was a problem. Please try again later.');
+    }
+  };
+
   return (
     <section className="pt-32 pb-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center">
           <div className="lg:w-1/2 lg:pr-10 mb-10 lg:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-              Smart Savings with <span className="text-blue-600">AI Insights</span>
+              AI that finds savings for you. <span className="text-blue-600">Automatically.</span>
             </h1>
             <p className="text-lg text-gray-600 mb-8 max-w-lg">
               SaveSum helps you save money intelligently with AI-powered insights and automated savings strategies.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                Start Saving Today
-              </Button>
-              <a href="#how-it-works">
-                <Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600/10">
-                  How It Works
-                </Button>
-              </a>
-            </div>
-            
-            <div className="mt-8 flex items-center space-x-2">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map(index => (
-                  <div key={index} className="h-10 w-10 rounded-full bg-referlut-light-purple border-2 border-white flex items-center justify-center text-xs font-semibold">
-                    {index}
-                  </div>
-                ))}
+            <form id="waitlist-form" onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col w-full sm:w-auto">
+                <input
+                  id="email-input"
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className={`px-4 py-3 rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 text-base w-full sm:w-72 shadow-sm transition-all duration-300`}
+                />
+                {error && (
+                  <span className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2 animate-fadeIn">
+                    {error}
+                  </span>
+                )}
               </div>
-              <p className="text-sm text-gray-600">
-                <span className="font-semibold">1000+</span> students already saving
-              </p>
-            </div>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" type="submit">
+                Join the Waitlist
+              </Button>
+            </form>
+            
+            <p className="text-lg text-blue-600 mt-4 max-w-lg">
+              Get early access. Be the first to save smarter.
+            </p>
+            
           </div>
           
           <div className="lg:w-1/2 relative">
-            <div className="bg-gradient-to-br from-referlut-purple/20 to-referlut-blue/30 rounded-2xl p-6 relative animate-float">
+            <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/30 rounded-2xl p-6 relative">
               <div className="bg-white rounded-xl shadow-lg p-4 md:p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-semibold">Your Savings Dashboard</h3>
@@ -56,13 +101,12 @@ const Hero = () => {
                       +
                     </div>
                   </div>
-                  <div className="bg-referlut-blue/30 rounded-lg p-4">
+                  <div className="bg-blue-500/30 rounded-lg p-4">
                     <p className="text-sm font-medium mb-2">Active Memberships</p>
                     <div className="flex items-center space-x-2">
                       <div className="h-8 w-8 rounded-md bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-600">P</div>
                       <div className="flex-1">
                         <p className="text-sm font-medium">Pret Coffee Subscription</p>
-                        <p className="text-xs text-gray-500">Shared with Alice</p>
                       </div>
                     </div>
                   </div>
@@ -75,9 +119,9 @@ const Hero = () => {
               </div>
             </div>
             
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-3 border border-referlut-light-purple animate-float" style={{ animationDelay: '1s' }}>
+            <div className="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-3 border border-blue-200">
               <div className="flex items-center space-x-2">
-                <div className="h-10 w-10 rounded-full bg-referlut-orange/20 flex items-center justify-center text-referlut-orange font-semibold">£</div>
+                <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-semibold">£</div>
                 <div>
                   <p className="text-xs font-medium">Cashback Earned</p>
                   <p className="text-sm font-bold">£12.50</p>

@@ -1,7 +1,32 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 
 const CallToAction = () => {
+  const scrollToWaitlist = () => {
+    const waitlistForm = document.getElementById('waitlist-form');
+    if (waitlistForm) {
+      waitlistForm.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+      });
+      
+      // Highlight the input field after scrolling
+      setTimeout(() => {
+        const emailInput = document.getElementById('email-input');
+        if (emailInput) {
+          emailInput.focus();
+          // Add a pulse animation
+          emailInput.classList.add('animate-pulse');
+          setTimeout(() => {
+            emailInput.classList.remove('animate-pulse');
+          }, 1000);
+        }
+      }, 800); // Wait for scroll to complete
+    }
+  };
+
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
@@ -14,23 +39,24 @@ const CallToAction = () => {
               <p className="text-white/90 text-lg mb-8 max-w-lg">
                 Join thousands of users already using SaveSum to save money
                 with AI-powered insights and automated savings strategies.
-                It only takes a minute to get started.
+                Start saving in just one minute.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-white text-blue-600 hover:bg-white/90"
-                >
-                  Get Started Now
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-white text-white hover:bg-white/10"
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <Button
+                      size="lg"
+                      onClick={scrollToWaitlist}
+                      className="bg-white text-blue-600 hover:bg-white/90"
+                    >
+                      Start Saving
+                    </Button>
+                    <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-white text-white hover:bg-white/10"
                 >
                   Learn More
                 </Button>
-              </div>
+                </div>
             </div>
             <div className="md:w-2/5 hidden md:block relative">
               <div className="absolute inset-0 bg-blue-600/20 backdrop-blur-sm"></div>
